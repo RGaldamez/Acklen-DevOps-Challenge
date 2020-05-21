@@ -31,4 +31,25 @@ resource "aws_subnet" "chat-subnet-2" {
   }
 }
 
+resource "aws_internet_gateway" "chat-internet-gateway" {
+  vpc_id = aws_vpc.chat-vpc.id
+  tags = {
+      Name = "chat-internet-gateway"
+  }
+}
+
+
+resource "aws_route_table" "chat-route-table" {
+  vpc_id = aws_vpc.chat-vpc.id
+  route {
+      cidr_block = "0.0.0.0/0"
+      gateway_id = aws_internet_gateway.chat-internet-gateway.id
+  }
+  tags = {
+      Name = "chat-route-table"
+  }
+}
+
+
+
 
