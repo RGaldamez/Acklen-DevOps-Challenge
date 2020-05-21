@@ -1,7 +1,7 @@
 # Acklen-DevOps-Challenge
 AcklenAvenue devops challenge using Terraform and Ansible for infrastructure and software provisioning.
 
-#### Application Versions used in this Project
+### Application Versions used in this Project
 Application  | Version
 ----------   | ------ 
 Terraform    | v0.12.25
@@ -28,6 +28,7 @@ AWS Provider | v2.62.0
     --------------------  | -----
     AWS_ACCESS_KEY        | Your access key id
     AWS_SECRET_ACCESS_KEY | Your access key secret
+    
     Alternatively however **not recommended** you can attach them to the provider.tf file in the following way:
     ```
     provider "aws" {
