@@ -49,7 +49,9 @@ AWS Provider | v2.62.0
 6. When terraform finishes it should output the public DNS of the Load Balancer created, which is where you can visit the Chat Application! Copy paste it into your browser to view the app running.
 
 ### Notes:
-A level of *stickiness* is handled to keep the user in a single instance, meaning requests will go to the same machine for the duration of a session which is a day in this case (you can delete this cookie or enter the dns with incognito or another device to test the other running instance(s)).
+* You should wait about 5-10 minutes before trying the DNS as **Ansible** is still setting up the application in the  remote EC2 instances.
+* A level of *stickiness* is handled to keep the user in a single instance, meaning requests will go to the same machine for the duration of a session which is **1 day** in this case (you can delete this cookie, enter the DNS with incognito or use another device to test the other running instance(s)).
+
 
    
 
