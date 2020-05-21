@@ -19,6 +19,9 @@ resource "aws_alb_target_group" "chat-application-target-group" {
   tags = {
     Name = "chat-application-target-group"
   }
+  stickiness { 
+      type = "lb_cookie"
+  }
 }
 
 #Listener will listen in port 80 and forward traffic to target group
