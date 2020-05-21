@@ -22,5 +22,8 @@ resource "aws_launch_configuration" "chat-autoscaling-launch-configuration" {
   lifecycle { 
       create_before_destroy = true
   }
+  security_groups = [
+      aws_security_group.chat-security-group.id
+  ]
 }
 
