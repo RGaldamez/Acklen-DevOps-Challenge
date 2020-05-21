@@ -25,7 +25,7 @@ resource "aws_subnet" "chat-subnet-1" {
 #Creating subnet in availability zone "b"
 resource "aws_subnet" "chat-subnet-2" {
   vpc_id = aws_vpc.chat-vpc.id
-  cidr_block = "0.0.2.0/24"
+  cidr_block = "10.0.2.0/24"
   map_public_ip_on_launch = "true"
   availability_zone = var.AVAILABILITY_ZONE_2
   tags = {
