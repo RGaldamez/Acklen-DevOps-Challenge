@@ -11,7 +11,16 @@ resource "aws_autoscaling_group" "chat-autoscaling-group" {
         key = "Name"
         value = "Terraform chat instance"
         propagate_at_launch = true
-    }
-    
-  
+    }  
 }
+
+resource "aws_launch_configuration" "chat-autoscaling-launch-configuration" {
+  name = "chat-autoscaling-launch-configuration"
+  image_id = var.AMI
+  instance_type = var.INSTANCE_TYPE
+  key_name = var.KEY_NAME
+  lifecycle { 
+      create_before_destroy = true
+  }
+}
+
