@@ -27,3 +27,32 @@ resource "aws_launch_configuration" "chat-autoscaling-launch-configuration" {
   ]
 }
 
+resource "aws_autoscaling_policy" "chat-autoscaling-policy-scale-up" {
+    name = "chat-autoscaling-policy-scale-up"
+    scaling_adjustment = 1
+    adjustment_type = "ChangeInCapacity"
+    cooldown = 180
+    autoscaling_group_name = aws_autoscaling_group.chat-autoscaling-group.name
+}
+
+resource "aws_cloudwatch_metric_alarm" "chat-cloudwatch-autoscale-alarm-up" {
+    alarm_name = "chat-cloudwatch-autoscale-alarm-up"
+    alarm_description = "Scales up when average cpu reaches 35%"
+    comparison_operator = "GreaterThanOrEqualToThreshold"
+    evaluation_periods = "2"
+    metric_name = "CPUUtilization"
+    namespace = "AWS/EC2"
+    period = "60"
+    statistic = "Average"
+    threshold = "35"
+    dimensions = {
+        "AutoScalingGroupName" = aws_autoscaling_group.chat-autoscaling-group.name
+    }
+        
+    
+    alarm_actions = [
+        aws_autoscaling_policy.chat-autoscaling-policy-scale-up.arn
+    ]
+  
+}
+
