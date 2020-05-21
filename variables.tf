@@ -10,6 +10,7 @@ variable "AVAILABILITY_ZONE_2" {
   default = "us-east-1b"
 }
 
+#Linux 18.04
 variable "AMI" {
   default = "ami-085925f297f89fce1"
 }
