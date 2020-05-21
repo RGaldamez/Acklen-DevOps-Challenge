@@ -14,6 +14,7 @@ resource "aws_autoscaling_group" "chat-autoscaling-group" {
     }  
 }
 
+#Creating the launch configuration for new instances
 resource "aws_launch_configuration" "chat-autoscaling-launch-configuration" {
   name = "chat-autoscaling-launch-configuration"
   image_id = var.AMI
@@ -27,6 +28,7 @@ resource "aws_launch_configuration" "chat-autoscaling-launch-configuration" {
   ]
 }
 
+#Autoscaling policy to scale up
 resource "aws_autoscaling_policy" "chat-autoscaling-policy-scale-up" {
     name = "chat-autoscaling-policy-scale-up"
     scaling_adjustment = 1
@@ -56,6 +58,7 @@ resource "aws_cloudwatch_metric_alarm" "chat-cloudwatch-autoscale-alarm-up" {
   
 }
 
+#Autoscaling policy to scale down 
 resource "aws_autoscaling_policy" "chat-autoscaling-policy-scale-down" {
   name = "chat-autoscaling-policy-scale-down"
   scaling_adjustment = -1
