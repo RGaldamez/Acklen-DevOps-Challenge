@@ -56,3 +56,30 @@ resource "aws_cloudwatch_metric_alarm" "chat-cloudwatch-autoscale-alarm-up" {
   
 }
 
+resource "aws_autoscaling_policy" "chat-autoscaling-policy-scale-down" {
+  name = "chat-autoscaling-policy-scale-down"
+  scaling_adjustment = -1
+  cooldown = 180
+  autoscaling_group_name = aws_autoscaling_group.chat-autoscaling-group.name
+}
+
+resource "aws_cloudwatch_metric_alarm" "chat-cloudwatch-autoscale-alarm-down" {
+  alarm_name = "chat-cloudwatch-autoscale-alarm-down"
+  alarm_description = "Scales down when average cpu reaches 15%"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  evaluation_periods = "2"
+  metric_name = "CPUUtilization"
+  namespace = "AWS/EC2"
+  period = "60"
+  statistic = "Average"
+  threshold = "15"
+
+  dimensions= {
+      "AutoScalingGroupName" = aws_autoscaling_group.chat-autoscaling-group.name
+  }
+
+  alarm_actions = [
+      aws_autoscaling_policy.chat-autoscaling-policy-scale-down.arn
+  ]
+}
+
