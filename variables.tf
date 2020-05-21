@@ -19,7 +19,7 @@ variable "INSTANCE_TYPE" {
 }
 
 variable "KEY_NAME" {
-  default  = "linux-connect"
+  default = "linux-connect"
 }
 
 
