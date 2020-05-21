@@ -28,7 +28,7 @@ AWS Provider | v2.62.0
     --------------------  | -----
     AWS_ACCESS_KEY        | Your access key id
     AWS_SECRET_ACCESS_KEY | Your access key secret
-    
+
     Alternatively however **not recommended** you can attach them to the provider.tf file in the following way:
     ```
     provider "aws" {
@@ -39,7 +39,7 @@ AWS Provider | v2.62.0
 
     ```
 
-5. After downloading the repo, run the next commands: 
+5. After downloading this repo, run the next commands: 
    ```
    terraform init
    terraform apply
