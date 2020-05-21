@@ -25,7 +25,7 @@ resource "aws_alb_target_group" "chat-alb-target-group" {
 resource "aws_alb_listener" "chat-alb-listener" {
     load_balancer_arn = aws_alb.chat-application-load-balancer.arn
     port = 80
-    protocol "HTTP"
+    protocol = "HTTP"
 
     default_action {
         target_group_arn = aws_alb_target_group.chat-alb-target-group.arn
@@ -34,6 +34,11 @@ resource "aws_alb_listener" "chat-alb-listener" {
   
 }
 
+resource "aws_autoscaling_attachment" "chat-autoscaling-attachment" {
+    alb_target_group_arn = aws_alb_target_group.chat-alb-target-group.arn
+    autoscaling_group_name = aws_autoscaling_group.chat-autoscaling-group.name
+  
+}
 
 
 
