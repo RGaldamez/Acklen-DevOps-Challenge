@@ -1,7 +1,7 @@
 # Acklen-DevOps-Challenge
 AcklenAvenue devops challenge using Terraform and Ansible for infrastructure and software provisioning.
 
-####Application Versions used in this Project
+#### Application Versions used in this Project
 Application  | Version
 ----------   | ------ 
 Terraform    | v0.12.25
