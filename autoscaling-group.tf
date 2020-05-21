@@ -12,6 +12,7 @@ resource "aws_autoscaling_group" "chat-autoscaling-group" {
         value = "Terraform chat instance"
         propagate_at_launch = true
     }  
+    launch_configuration = aws_launch_configuration.chat-autoscaling-launch-configuration.name
 }
 
 #Creating the launch configuration for new instances
