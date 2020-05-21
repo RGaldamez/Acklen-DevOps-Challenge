@@ -63,6 +63,7 @@ resource "aws_cloudwatch_metric_alarm" "chat-cloudwatch-autoscale-alarm-up" {
 resource "aws_autoscaling_policy" "chat-autoscaling-policy-scale-down" {
   name = "chat-autoscaling-policy-scale-down"
   scaling_adjustment = -1
+  adjustment_type = "ChangeInCapacity"
   cooldown = 180
   autoscaling_group_name = aws_autoscaling_group.chat-autoscaling-group.name
 }
