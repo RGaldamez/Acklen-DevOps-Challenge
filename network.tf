@@ -50,6 +50,17 @@ resource "aws_route_table" "chat-route-table" {
   }
 }
 
+resource "aws_route_table_association" "chat-route-table-association-subnet-1" {
+  subnet_id = aws_subnet.chat-subnet-1.id
+  route_table_id = aws_route_table.chat-route-table.id
+}
+
+resource "aws_route_table_association" "chat-route-table-association-subnet-2" {
+    subnet_id = aws_subnet.chat-subnet-2.id
+    route_table_id = aws_route_table.chat-route-table.id
+  
+}
+
 
 
 
