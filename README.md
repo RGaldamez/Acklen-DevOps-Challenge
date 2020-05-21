@@ -1,5 +1,6 @@
 # Acklen-DevOps-Challenge
 AcklenAvenue devops challenge using Terraform and Ansible for infrastructure and software provisioning.
+The application used in the project is the following: [Chat application using socket.io](https://github.com/RGaldamez/Chat-App-using-Socket.io)
 
 ### Application Versions used in this Project
 Application  | Version
@@ -10,7 +11,7 @@ AWS Provider | v2.62.0
 
 ### Setup to run project:
 1. Set desired variables in the variables.tf file (make sure to add an existing key pair name if you want to ssh into your instances). Default region and availability zones are set in North Virginia (us-east-1).
-2. Install Terraform: Version in this project is an executable file that has to be added to the $PATH to run from command line/terminal. See version in the beginning of this README.
+2. Install Terraform: Version in this project is an executable file that has to be added to the $PATH to run from command line/terminal. See version in the beginning of this README. In Ubuntu the executable file was added to the /bin folder.
 3. Create an IAM user in AWS with the privilege of **AmazonEC2FullAccess**
    ...or you can set the individual services: 
    * EC2
@@ -47,7 +48,7 @@ AWS Provider | v2.62.0
 ### Notes:
 * You should wait about 5-10 minutes before trying the DNS as **Ansible** is still setting up the application in the remote EC2 instances after Terraform finishes.
 * A level of *stickiness* is handled to keep the user in a single instance, meaning requests will go to the same machine for the duration of a session which is **1 day** in this case (you can delete this cookie, enter the DNS with incognito or use another device to test the other running instance(s)).
-* All the services used in this project fall under the **free tier** in AWS.
+* All the services used in this project fall under the [AWS Free Tier](https://aws.amazon.com/free/).
 
 
 ### Steps in the making
@@ -66,7 +67,7 @@ In case you want to show you rock with Terraform, instead of using EC2, create a
     * The rules are the following: 
        * When the **average** CPU is greater or equal to 35%, a new instance will be launched if there are less than 4 instances running.
        * When the **average** CPU is lower or equal to 15% an instance will be terminated if there are more than 2 instances running.
-    * The chosen metric to either scale instances up or down was the CPU usage, the main purpose was to stress an instance to see the scaling group in action: 
+    * The chosen metric to either scale instances up or down was the average CPU usage, the main purpose was to stress an instance to see the scaling group in action: 
     After using ssh to log into a random instance, the package **stress-ng** was installed to simulate CPU usage, a command used was the following:
         ```
         stress-ng -c 1 -l 80
@@ -75,8 +76,14 @@ In case you want to show you rock with Terraform, instead of using EC2, create a
         you can learn more at [Ubuntu wiki: stress-ng](https://wiki.ubuntu.com/Kernel/Reference/stress-ng)
     
 3. >You will need to create an application load balancer for this. The idea is that for accessing the application it has to be using the load balancer. For doing this you will need to use terraform
+
+    * A load balancer was specially necessary here because the original application listens in the port 5000. Which means that to access the app in an instance you would need to use the IP or DNS plus ":5000", which is an undesirable scenario for the end user.
+    *  No changes were made to the node application code to mantain consistency as DevOps and not a Developer.
+    * The load balancer listens in the port 80 (HTTP) and forwards traffic to the port 5000 of the instances.
+
 4. >When you have the infrastructure, you will need to install the application. You will need to install node in the EC2 you created in step 2 and configure the application. Remember the application will need to be up always. For doing this, you will need to run ansible for configuring everything.
-   
+   * An autoscaling group was used in this project, which would dynamically create instances depending on the launch configuration. Since the instaces are created dynamically, and there is no peering between the subnets, the localhost of each instance was used to run ansible.
+   * _user_data_ in the launch configuration are commands that run **ONCE** after an instance is launched. A bash script was provided which internally holds the ansible playbook. The script outputs the internal ansible commands into a file, installs ansible and finally runs the ansible playbook.
 
    
    
