@@ -1,4 +1,19 @@
 #Step 2 CHALLENGE version: Create an autoscaling group to have dynamic instances 
+
+#Creating the launch configuration for new instances
+resource "aws_launch_configuration" "chat-autoscaling-launch-configuration" {
+  name = "chat-autoscaling-launch-configuration"
+  image_id = var.AMI
+  instance_type = var.INSTANCE_TYPE
+  key_name = var.KEY_NAME
+  lifecycle { 
+      create_before_destroy = true
+  }
+  security_groups = [
+      aws_security_group.chat-security-group.id
+  ]
+}
+
 resource "aws_autoscaling_group" "chat-autoscaling-group" {
     name = "chat-autoscaling-group"
     vpc_zone_identifier = [
@@ -15,19 +30,7 @@ resource "aws_autoscaling_group" "chat-autoscaling-group" {
     launch_configuration = aws_launch_configuration.chat-autoscaling-launch-configuration.name
 }
 
-#Creating the launch configuration for new instances
-resource "aws_launch_configuration" "chat-autoscaling-launch-configuration" {
-  name = "chat-autoscaling-launch-configuration"
-  image_id = var.AMI
-  instance_type = var.INSTANCE_TYPE
-  key_name = var.KEY_NAME
-  lifecycle { 
-      create_before_destroy = true
-  }
-  security_groups = [
-      aws_security_group.chat-security-group.id
-  ]
-}
+
 
 #Autoscaling policy to scale up
 resource "aws_autoscaling_policy" "chat-autoscaling-policy-scale-up" {
