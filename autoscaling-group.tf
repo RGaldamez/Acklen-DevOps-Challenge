@@ -12,6 +12,7 @@ resource "aws_launch_configuration" "chat-autoscaling-launch-configuration" {
   security_groups = [
     aws_security_group.chat-security-group.id
   ]
+  user_data = file("run-ansible.sh")
 }
 
 resource "aws_autoscaling_group" "chat-autoscaling-group" {
